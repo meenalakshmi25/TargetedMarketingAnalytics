@@ -23,6 +23,11 @@ This repository contains the full implementation of an MSc Business Analytics di
     *   Data was scaled using `StandardScaler`.
     *   Principal Component Analysis (PCA) was applied for dimensionality reduction and visualization.
     *   K-Means clustering was performed to segment customers, and the silhouette score was calculated to evaluate the clustering. The average profile of each cluster was also analyzed.
+    *   Agglomerative Clustering:
+Agglomerative Clustering was applied as an alternative clustering technique. This hierarchical method does not require the number of clusters to be specified upfront.
+The dendrogram was plotted to visualize the hierarchical structure of clusters, and an appropriate cut-off was chosen to form clusters.
+Similar to K-Means, the silhouette score was calculated for Agglomerative Clustering to assess the separation and compactness of the clusters.
+The average profile of each cluster was analyzed to compare the segments formed by Agglomerative Clustering with those obtained from K-Means, providing deeper insights into customer behavior.
 5.  **Classification Modeling**:
     *   The data was split into training and testing sets.
     *   Two classification models, Random Forest and XGBoost, were trained and evaluated using various metrics such as Accuracy, Precision, Recall, F1 Score, and ROC-AUC.

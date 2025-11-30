@@ -38,17 +38,55 @@ The average profile of each cluster was analyzed to compare the segments formed 
 
 ## Key Findings:
 
-*   The dataset contains customer information with a target variable 'y' indicating subscription status.
-*   EDA revealed insights into the distribution of features like age, balance, job categories, and how factors like marital status and previous outcome relate to subscription rates.
-*   PCA showed some separation based on the target variable, but the explained variance was relatively low with just two components.
-*   K-Means clustering with 4 clusters resulted in a silhouette score of approximately 0.10, suggesting that the clusters are not well-separated.
-*   Both Random Forest and XGBoost models achieved high accuracy (around 90%), but precision and recall for the positive class (subscribed) were lower, indicating a challenge in correctly identifying all subscribed customers due to the class imbalance observed in the target distribution.
-*   XGBoost showed slightly better performance across most metrics compared to Random Forest.
-*   Feature importance analysis identified the most influential features for predicting subscription.
-*    Implementation Guidelines:
-The initial stage of the implementation process is the data ingestion and versioning, in which the dataset, meena_customer_segmentation_clean.xlsx (sheet: Clean_Data), is loaded with pd.read.excel. A dataset snapshot including file hash, records counts and time is saved to ensure reproducibility. The schema validation assures the availability of essential variables like age, job, marital, education, balance, housing, loan, default, contact, month, day, duration, campaign, poutcome and y. This is followed by deterministic preprocessing pipeline. The default variable is coded as a binary ( No = 0, Yes = 1) and the month is coded as a non-numerical (month_num), and redundant columns are dropped. The one-hot encoding of categorical variables, which include job, marital, education, contact and poutcome is done with the help of pd.get_dummies(drop_first=True) to avoid collinearity. Standardization is done by using StandardScaler which is fitted on the training data to guarantee that scaling is similar between train-test splits. Such artifacts as the scaler and dummy column mappings are stored in inference consistency (Hicham, Nassera and Karim, 2023).
-The histograms, boxplots, and pie charts in exploratory data analysis indicate imbalance in the classes (~11-12% positives) and skewed balance distributions to the right. PCA is further used to visualize the trends of data, and then K-Means (k=4) is used to cluster customers, which is then validated in terms of silhouette score. Profiles of clusters are done (e.g., high-balance vs. low-engagement customers). Lastly, the dataset is divided (75/25 stratified) and Random Forest and XGBoost models are trained and assessed using precision, recall, F1-score and ROC-AUC. XGBoost XGBoost (n=150, learning rate=0.1, max depth=5) proved to be the most predictive, and thus, it is the optimal model when it comes to deployment in targeted marketing in the banking industry. 
+Key Findings
 
+Dataset Overview:
+
+The dataset contains various customer features, with a target variable 'y' indicating subscription status to a term deposit (subscribed = 1, not subscribed = 0).
+
+Key features include demographic information (e.g., age, job, marital status), financial information (balance, housing loan, credit default), and engagement data (e.g., contact, previous outcome, duration of contact).
+
+Exploratory Data Analysis (EDA):
+
+Initial EDA provided valuable insights into the distribution of features such as age, balance, and job categories.
+
+Marital status and previous outcome were found to have significant relationships with the likelihood of subscribing to the term deposit, showing that customer characteristics and past interactions strongly influence the success of marketing efforts.
+
+Class imbalance: The dataset is highly imbalanced, with approximately 11-12% of customers subscribing to a term deposit, suggesting a need for techniques to address this imbalance.
+
+Principal Component Analysis (PCA):
+
+PCA was applied to reduce the dimensionality of the data, but only a low explained variance was achieved with just two principal components.
+
+While there was some separation based on the target variable (subscription status), the reduction did not fully capture all the patterns in the data, suggesting that more complex models might be needed.
+
+Clustering:
+
+K-Means Clustering:
+
+K-Means clustering with k=4 was performed, but the silhouette score was relatively low (around 0.10), indicating poor separation between the clusters.
+
+Clusters such as high-balance, low-engagement customers were identified, but the clustering did not provide clear, meaningful segments that could be used effectively for targeted marketing.
+
+Agglomerative Clustering (N=4):
+
+Agglomerative Clustering with N=4 clusters was applied as an alternative to K-Means. This hierarchical clustering technique does not require the number of clusters to be predefined, but N=4 was specified based on the dendrogram and evaluation of cluster quality.
+
+A dendrogram was generated to visualize the hierarchical relationships between customers, and the optimal cut-off was chosen based on the visual analysis to form 4 clusters.
+
+The silhouette score for Agglomerative Clustering with N=4 was calculated and found to be higher than K-Means, indicating that the hierarchical clustering provided better separation of customer segments.
+
+Profiles of clusters, such as high-balance, high-engagement customers versus low-balance, low-engagement customers, provided deeper insights into customer behavior, showing that Agglomerative Clustering could better capture complex patterns in the data.
+
+Model Performance:
+
+Random Forest and XGBoost both achieved high accuracy (~90%), but their ability to correctly identify subscribed customers was limited by class imbalance.
+
+Precision and recall for the positive class (subscribed customers) were lower, indicating that while the models were able to correctly classify many non-subscribed customers, they struggled with predicting the minority class (subscribed).
+
+XGBoost outperformed Random Forest in most performance metrics, including F1-score, precision, recall, and ROC-AUC.
+
+Feature importance analysis revealed that previous campaign outcome, contact duration, and balance were the most influential features for predicting customer subscription behavior.
 
 ---
 

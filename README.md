@@ -90,4 +90,4 @@ Feature importance analysis revealed that previous campaign outcome, contact dur
 
 ---
 
-This analysis provides a starting point for understanding customer behavior and building predictive models. Further work could involve exploring different clustering algorithms, optimizing model hyperparameters, or addressing the class imbalance.
+
